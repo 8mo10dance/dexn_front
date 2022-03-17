@@ -1,6 +1,6 @@
 name: Lint
 
-on: [push]
+on: [pull_request]
 
 jobs:
   hadolint:
@@ -10,3 +10,6 @@ jobs:
       - uses: hadolint/hadolint-action@v1.6.0
         with:
           dockerfile: Dockerfile
+      - run: reviewdog -reporter=github-pr-review -f=checkstyle
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
